@@ -5,16 +5,16 @@ using System.Linq;
 
 namespace TheTracker
 {
-    public class MapModsTracker(GameController gameController, TheTrackerSettings settings)
+    public class MapModTracker(GameController gameController, TheTrackerSettings settings)
     {
         private readonly GameController _gameController = gameController;
         private readonly TheTrackerSettings _settings = settings;
 
         private string[] MapMods => _settings.MapMods.Split('\n');
 
-        public void DrawMods()
+        public void DrawMapMods()
         {
-            var mods = GetMods();
+            var mods = GetMapMods();
             if (mods.Count == 0) return;
 
             var flags = _settings.MoveWindow
@@ -22,12 +22,12 @@ namespace TheTracker
                 : ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.NoInputs;
 
             ImGui.SetNextWindowBgAlpha(0.75f);
-            ImGui.Begin($"Mods", flags);
+            ImGui.Begin($"Map Mods", flags);
             mods.ForEach(mod => ImGui.TextColored(MapMods.GetColor(mod.Split(':').FirstOrDefault()), mod));
             ImGui.End();
         }
 
-        private List<string> GetMods()
+        private List<string> GetMapMods()
         {
             if (_gameController.IngameState?.Data?.MapStats is null) return [];
 

@@ -8,8 +8,9 @@ public partial class TheTracker : BaseSettingsPlugin<TheTrackerSettings>
 {
     private GroundEffectTracker _groundEffectTracker;
     private MonsterTracker _monsterTracker;
-    private PlayerStatsTracker _statsTracker;
-    private MapModsTracker _modsTracker;
+    private StrongboxTracker _strongboxTracker;
+    private PlayerBuffsTracker _playerBuffsTracker;
+    private MapModTracker _mapModsTracker;
 
     public override bool Initialise()
     {
@@ -24,8 +25,9 @@ public partial class TheTracker : BaseSettingsPlugin<TheTrackerSettings>
 
         _groundEffectTracker = new(GameController, Graphics, Settings);
         _monsterTracker = new(GameController, Graphics, Settings);
-        _statsTracker = new(GameController, Settings);
-        _modsTracker = new(GameController, Settings);
+        _strongboxTracker = new(GameController, Graphics, Settings);
+        _playerBuffsTracker = new(GameController, Settings);
+        _mapModsTracker = new(GameController, Settings);
 
         return true;
     }
@@ -57,8 +59,9 @@ public partial class TheTracker : BaseSettingsPlugin<TheTrackerSettings>
     {
         _groundEffectTracker.DrawGroundEffects();
         _monsterTracker.DrawMonsters();
-        _statsTracker.DrawStats();
-        _modsTracker.DrawMods();
+        _strongboxTracker.DrawStrongboxMods();
+        _playerBuffsTracker.DrawPlayerBuffs();
+        _mapModsTracker.DrawMapMods();
     }
 
     public override void EntityAdded(Entity entity)
@@ -73,13 +76,15 @@ public partial class TheTracker : BaseSettingsPlugin<TheTrackerSettings>
     {
         base.DrawSettings();
 
-        ImGui.Text("Stats");
-        ImGui.InputTextMultiline("##Stats", ref Settings.Stats, 8000, new System.Numerics.Vector2(600, 100));
+        ImGui.Text("Player Buffs");
+        ImGui.InputTextMultiline("##PlayerBuffs", ref Settings.PlayerBuffs, 8000, new System.Numerics.Vector2(600, 100));
         ImGui.Text("Ground Effects");
         ImGui.InputTextMultiline("##GroundEffects", ref Settings.GroundEffects, 8000, new System.Numerics.Vector2(600, 100));
         ImGui.Text("Monsters");
         ImGui.InputTextMultiline("##Monsters", ref Settings.Monsters, 8000, new System.Numerics.Vector2(600, 100));
         ImGui.Text("Map Mods");
         ImGui.InputTextMultiline("##MapMods", ref Settings.MapMods, 8000, new System.Numerics.Vector2(600, 100));
+        ImGui.Text("Strongbox Mods");
+        ImGui.InputTextMultiline("##StrongboxMods", ref Settings.StrongboxMods, 8000, new System.Numerics.Vector2(600, 100));
     }
 }

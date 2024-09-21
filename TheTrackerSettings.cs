@@ -15,6 +15,7 @@ public class TheTrackerSettings : ISettings
     //If you want to override DrawSettings instead, you better have a very good reason.
     public string GroundEffects = string.Empty;
     public string Monsters = string.Empty;
-    public string Stats = string.Empty;
+    public string PlayerBuffs = string.Empty;
     public string MapMods = string.Empty;
+    public string StrongboxMods = string.Empty;
 }

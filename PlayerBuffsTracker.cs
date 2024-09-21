@@ -5,16 +5,16 @@ using System.Linq;
 
 namespace TheTracker
 {
-    public class PlayerStatsTracker(GameController gameController, TheTrackerSettings settings)
+    public class PlayerBuffsTracker(GameController gameController, TheTrackerSettings settings)
     {
         private readonly GameController _gameController = gameController;
         private readonly TheTrackerSettings _settings = settings;
 
-        private string[] Stats => _settings.Stats.Split('\n');
+        private string[] PlayerBuffs => _settings.PlayerBuffs.Split('\n');
 
-        public void DrawStats()
+        public void DrawPlayerBuffs()
         {
-            var buffs = GetBuffs();
+            var buffs = GetPlayerBuffs();
             if (buffs.Count == 0) return;
 
             var flags = _settings.MoveWindow
@@ -22,17 +22,17 @@ namespace TheTracker
                 : ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.NoInputs;
 
             ImGui.SetNextWindowBgAlpha(0.75f);
-            ImGui.Begin($"Stats", flags);
-            buffs.ForEach(buff => ImGui.TextColored(Stats.GetColor(buff.Name), buff.Description));
+            ImGui.Begin($"Player Buffs", flags);
+            buffs.ForEach(buff => ImGui.TextColored(PlayerBuffs.GetColor(buff.Name), buff.Description));
             ImGui.End();
         }
 
-        private List<(string Name, string Description)> GetBuffs()
+        private List<(string Name, string Description)> GetPlayerBuffs()
         {
             if (_gameController.Player?.Buffs is null) return [];
 
             return _gameController.Player.Buffs
-                .Where(buff => Stats.Contains(buff.DisplayName))
+                .Where(buff => PlayerBuffs.Contains(buff.DisplayName))
                 .Select(buff => (
                     buff.DisplayName,
                     $"{buff.DisplayName} {(float.IsInfinity(buff.Timer) ? string.Empty : buff.Timer.ToString("0.00"))}"
